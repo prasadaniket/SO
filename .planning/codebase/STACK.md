@@ -13,8 +13,11 @@ StoneOven is a multi-repo project with a Java Spring Boot backend and two Next.j
 ### Styling & UI
 - **CSS Framework**: `Tailwind CSS 3.4.4`
 - **Animation**: `Framer Motion` (client)
-- **Icons**: `Lucide React` (cms)
-- **Component Libraries**: `@radix-ui/react-avatar` (cms)
+- **Icons**: `Lucide React` (cms), Raw SVGs (client footer)
+- **Component Libraries**: `@radix-ui/react-avatar` (cms/client)
+
+### UI Patterns
+- **Linktree Aesthetic**: The `client` app employs a "Linktree" or "Link-in-bio" mobile-first aesthetic with immersive gradients (`#E88C3A` to `#1E2024`), rounded pills, semi-transparent overlays, and centered layouts.
 
 ### State Management & Data Fetching
 - **HTTP Client**: `axios`

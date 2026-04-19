@@ -10,7 +10,7 @@
 
 ## Client Subdirectories (`/client`)
 - `src/app/` - Next.js App Router entry points, pages, and layout structure.
-- `src/components/` - Reusable UI elements (React components).
+- `src/components/` - Reusable UI elements (React components). Includes `ui` (Avatar, Button, Select, etc) and `layout/Footer`.
 - `src/hooks/` - Custom React hooks for shared logic.
 - `src/lib/` - Utility functions, configurations, and API clients.
 - `src/styles/` - Global CSS/Tailwind definitions.
