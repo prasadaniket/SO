@@ -17,10 +17,61 @@
   body {
     @apply bg-neutral-off-white text-secondary;
     min-height: 100vh;
+    max-width: 768px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@layer components {
+  /* Gradient background — buttons, CTAs, block elements */
+  .btn-gradient {
+    background: linear-gradient(to bottom, #F2A65A, #E88C3A, #D96A1D);
+    color: #ffffff;
+  }
+  .btn-gradient:hover:not(:disabled) {
+    filter: brightness(1.08);
+  }
+  .btn-gradient:active:not(:disabled) {
+    filter: brightness(0.9);
+  }
+
+  /* Outline variant — border + text use mid-gradient colour, hover fills */
+  .btn-gradient-outline {
+    background: transparent;
+    border: 2px solid #E88C3A;
+    color: #E88C3A;
+  }
+  .btn-gradient-outline:hover:not(:disabled) {
+    background: linear-gradient(to bottom, #F2A65A, #E88C3A, #D96A1D);
+    border-color: transparent;
+    color: #ffffff;
+  }
+
+  /* Gradient text */
+  .text-gradient-primary {
+    background: linear-gradient(to bottom, #F2A65A, #E88C3A, #D96A1D);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Gradient background for non-button block elements */
+  .bg-gradient-primary {
+    background: linear-gradient(to bottom, #F2A65A, #E88C3A, #D96A1D);
+  }
+
+  /* Soft tint accent — replaces bg-primary/10 */
+  .accent-tint-primary {
+    background-color: rgba(232, 140, 58, 0.12);
   }
 }
 
 @layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;

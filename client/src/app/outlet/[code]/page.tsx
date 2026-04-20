@@ -3,13 +3,12 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { api } from '@/lib/api'
 import { useDeviceFingerprint } from '@/hooks/useDeviceFingerprint'
 import { useCustomer } from '@/hooks/useCustomer'
 import { useOutlet } from '@/hooks/useOutlet'
-import Footer from '@/components/layout/Footer'
-import FirstVisitForm from '@/components/forms/FirstVisitForm'
-import OngoingReviewForm from '@/components/forms/OngoingReviewForm'
 import Loader from '@/components/ui/Loader'
 
 export default function OutletPage() {
@@ -40,12 +39,16 @@ export default function OutletPage() {
 
   const loading = fpLoading || outletLoading || customerLoading
 
-  if (loading) return <Loader fullScreen />
+  if (loading) return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#1A1A1A] to-[#000000]">
+      <Loader />
+    </div>
+  )
 
   if (!outlet) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-error">Outlet not found</p>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#1A1A1A] to-[#000000]">
+        <p className="text-white/50 text-lg">Outlet not found</p>
       </div>
     )
   }
@@ -53,54 +56,165 @@ export default function OutletPage() {
   const showOngoingForm = customer && customer.hasSubmittedFirstReview
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-1 w-full px-4 py-6 space-y-5">
-        <div className="pt-2 pb-1">
-          <h1 className="text-xl font-bold text-secondary">{outlet.name}</h1>
-          <p className="text-sm text-secondary-light">{outlet.location}</p>
-        </div>
+    <div className="relative min-h-screen flex flex-col items-center pt-10 px-6 bg-gradient-to-b from-[#1A1A1A] to-[#000000] overflow-x-hidden">
+      
+      {/* Radial soft glow behind content - Animated */}
+      <motion.div 
+        className="absolute top-[5%] left-1/2 w-[400px] h-[400px] bg-[#E88C3A] opacity-10 blur-[130px] rounded-full pointer-events-none"
+        style={{ x: '-50%' }}
+        animate={{ 
+           scale: [1, 1.05, 1], 
+           x: ['-50%', '-48%', '-52%', '-50%'],
+           y: [0, 15, -10, 0] 
+        }}
+        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+      />
 
-        <div className="bg-white rounded-xl p-4 shadow-sm flex flex-wrap gap-4">
+      <main className="relative z-10 flex-1 w-full max-w-sm md:max-w-md lg:max-w-lg mx-auto flex flex-col pt-4 pb-10">
+        
+        {/* LOGO AREA */}
+        <motion.div 
+           initial={{ scale: 0.9, opacity: 0 }}
+           animate={{ scale: 1, opacity: 1 }}
+           transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+           className="flex flex-col items-center mb-6"
+        >
+          <motion.div
+            animate={{ y: [0, -3, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            whileHover={{ scale: 1.05 }}
+            className="rounded-full shadow-[0_15px_35px_rgba(232,140,58,0.25)] ring-1 ring-white/10 mb-5 relative group"
+          >
+            <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 shadow-[0_0_25px_rgba(232,140,58,0.4)] transition-opacity duration-300 pointer-events-none" />
+            <Avatar className="w-24 h-24 bg-[#1A1A1A]">
+              <AvatarImage src="/images/logo/logo.jpg" alt="StoneOven" className="object-cover" />
+              <AvatarFallback className="text-white text-2xl font-bold bg-[#1A1A1A]">SO</AvatarFallback>
+            </Avatar>
+          </motion.div>
+
+          {/* TYPOGRAPHY */}
+          <h1 className="font-extrabold text-2xl mb-1 text-center tracking-[0.5px]">
+            <span className="text-white">STONE</span>
+            <motion.span
+              animate={{ textShadow: ['0 0 4px rgba(232,140,58,0.1)', '0 0 12px rgba(232,140,58,0.4)', '0 0 4px rgba(232,140,58,0.1)'] }}
+              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+              style={{
+                background: 'linear-gradient(to right, #F2A65A, #E88C3A, #D96A1D)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }}
+            >OVEN</motion.span>
+          </h1>
+          <p className="text-white/70 text-[13px] text-center font-medium">
+            Authentic flavours, crafted with love
+          </p>
+        </motion.div>
+
+        {/* OUTLET CONTEXT */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+          className="text-center mb-8"
+        >
+          <p className="text-white font-bold text-lg">{outlet.name}</p>
+          <p className="text-[#E88C3A] text-sm mt-1 opacity-80">{outlet.location}</p>
+        </motion.div>
+
+        {/* CTA ACTIONS */}
+        <div className="w-full flex flex-col gap-4 mb-10">
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <Link href={`/outlet/${code}/menu`} className="block w-full">
+              <motion.div
+                whileHover={{ y: -3, scale: 1.02 }}
+                whileTap={{ scale: 0.96 }}
+                className="relative overflow-hidden w-full h-[64px] flex flex-col items-center justify-center rounded-full transition-shadow duration-300 bg-gradient-to-b from-[#F2A65A] via-[#E88C3A] to-[#D96A1D] shadow-[0_0_16px_rgba(232,140,58,0.3)] hover:shadow-[0_0_24px_rgba(232,140,58,0.4)] border border-white/10"
+              >
+                <span className="relative z-10 font-bold text-[17px] tracking-wide text-white mb-0.5">
+                  View Menu
+                </span>
+                <span className="relative z-10 text-[11px] font-medium text-white/90">
+                  Explore our dishes & pricing
+                </span>
+              </motion.div>
+            </Link>
+          </motion.div>
+
           {outlet.googleMapsUrl && (
-            <a href={outlet.googleMapsUrl} target="_blank" rel="noopener noreferrer"
-              className="text-sm font-medium text-secondary hover:text-primary transition-colors">
-              View on Maps
-            </a>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.30, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+            >
+              <motion.a 
+                whileHover={{ y: -3, scale: 1.02 }}
+                whileTap={{ scale: 0.96 }}
+                href={outlet.googleMapsUrl} target="_blank" rel="noopener noreferrer"
+                className="w-full h-[60px] flex items-center justify-center gap-2.5 rounded-full bg-[#EEEEEE] shadow-[0_6px_16px_rgba(0,0,0,0.12)] border border-transparent transition-shadow duration-300"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E88C3A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span className="font-semibold text-[15px] tracking-wide text-[#1A1A1A]">Get Directions</span>
+              </motion.a>
+            </motion.div>
           )}
-          {outlet.instagramUrl && (
-            <a href={outlet.instagramUrl} target="_blank" rel="noopener noreferrer"
-              className="text-sm font-medium text-secondary hover:text-primary transition-colors">
-              Instagram
-            </a>
-          )}
-          {outlet.facebookUrl && (
-            <a href={outlet.facebookUrl} target="_blank" rel="noopener noreferrer"
-              className="text-sm font-medium text-secondary hover:text-primary transition-colors">
-              Facebook
-            </a>
-          )}
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <Link href={`/outlet/${code}/feedback`} className="block w-full">
+              <motion.div 
+                whileHover={{ y: -3, scale: 1.02 }}
+                whileTap={{ scale: 0.96 }}
+                className="w-full flex flex-col items-center justify-center px-6 py-3.5 rounded-[32px] bg-[#EEEEEE] shadow-[0_6px_16px_rgba(0,0,0,0.12)] border border-transparent transition-shadow duration-300"
+              >
+                <div className="flex flex-col items-center">
+                  <span className="font-bold text-[16px] tracking-wide text-[#1A1A1A]">Your First Visit</span>
+                  <span className="text-[12px] text-[#1A1A1A]/60 font-medium mt-0.5">Tell us how it went</span>
+                </div>
+              </motion.div>
+            </Link>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.40, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <Link href={`/outlet/${code}/review`} className="block w-full">
+              <motion.div 
+                whileHover={{ y: -3, scale: 1.02 }}
+                whileTap={{ scale: 0.96 }}
+                className="w-full flex flex-col items-center justify-center px-6 py-3.5 rounded-[32px] bg-[#EEEEEE] shadow-[0_6px_16px_rgba(0,0,0,0.12)] border border-transparent transition-shadow duration-300"
+              >
+                <div className="flex flex-col items-center">
+                  <span className="font-bold text-[16px] tracking-wide text-[#1A1A1A]">Share Your Experience</span>
+                  <span className="text-[12px] text-[#1A1A1A]/60 font-medium mt-0.5">Rate your visit and leave a review</span>
+                </div>
+              </motion.div>
+            </Link>
+          </motion.div>
         </div>
 
-        <Link href={`/outlet/${code}/menu`}
-          className="block bg-primary text-white rounded-xl p-5 shadow-sm hover:bg-primary-hover transition-colors">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="font-bold text-lg">View Our Menu</p>
-              <p className="text-sm text-white/80 mt-0.5">Browse all dishes & prices</p>
-            </div>
-          </div>
-        </Link>
-
-        <div key={refreshKey}>
-          {showOngoingForm ? (
-            <OngoingReviewForm customer={customer} outlet={outlet} onSuccess={handleFormSuccess} />
-          ) : (
-            deviceId && <FirstVisitForm outlet={outlet} deviceId={deviceId} onSuccess={handleFormSuccess} />
-          )}
-        </div>
       </main>
 
-      <Footer />
+
+      
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
+        className="relative z-10 w-full text-center pb-6 text-[10px] text-white/30 tracking-wide font-medium"
+      >
+        © 2026 UniCord. All rights reserved.
+      </motion.div>
     </div>
   )
 }

@@ -5,6 +5,12 @@ import '@/styles/globals.css'
 export const metadata: Metadata = {
   title: 'StoneOven Restaurant',
   description: 'Authentic flavours, crafted with love',
+  icons: {
+    icon: [
+      { url: '/images/logo/logo.png', type: 'image/png' },
+    ],
+    apple: '/images/logo/logo.png',
+  },
 }
 
 export const viewport: Viewport = {

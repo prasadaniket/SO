@@ -1,22 +1,17 @@
-# Coding Conventions
+# Conventions
 
-## Language & Framework
-- **Frontend**: Both `client` and `cms` use TypeScript with Next.js App Router conventions.
-- **Backend**: `server` uses Java 17 with Spring Boot and Maven.
+## Code Style & Patterns
+- **Functional Components**: Everything relies on React functional components with heavily embedded Tailwind utility classes.
+- **Client-Side Targeting**: Use of `"use client"` heavily in components heavily leveraging `framer-motion` APIs.
+- **Tailwind Precision**: The design system relies heavily on specific, complex Tailwind classes (e.g., inline box-shadow rgba logic, precise hex codes `bg-[#EEEEEE]`, nested gradients).
+- **Aesthetics & Minimalism**: Unnecessary sub-texts, complex multi-line grid structures inside buttons, and excessive visual noise are actively factored out in favor of sleek, mathematically centered "pill" buttons (e.g., `h-[60px] rounded-full`).
 
-## Code Style & Organization
-### Spring Boot (Backend)
-- Uses **Lombok** to reduce boilerplate code (e.g., getters, setters, constructors).
-- Uses **MapStruct** for automatic object mapping between Entity models and DTOs.
-- Typical package breakdown implies `controllers`, `services`, `repositories`, `models`/`entities`, `dtos`, `security`.
+## Motion Standards
+- Entry sequences often operate with staggered `delay` props and Spring smoothing.
+- Interactive elements typically respond to `whileHover={{ y: -3, scale: 1.02 }}` and `whileTap={{ scale: 0.96 }}` to give tactile feedback.
 
-### React/Next.js (Frontends)
-- Uses **Tailwind CSS** combined with `clsx` and `tailwind-merge` for dynamic and declarative component styling.
-- **Zod** is used alongside `react-hook-form` to define schema-based validations and manage form states declaratively.
-- Uses **ESLint** for static code analysis.
+## Formatting
+- Explicit pixel values are frequently passed to Tailwind (`text-[15px]`, `h-[60px]`) for design fidelity rather than abstract rem-based sizing.
 
-## Naming Conventions
-- React components: `PascalCase.tsx`.
-- Java Classes: `PascalCase.java`.
-- Type/Interface definitions in TypeScript: `PascalCase.ts`.
-- Hooks: `camelCase` starting with `use`.
+## Error Handling
+- Minimal visible error boundary setup at the page routing level. Data flows are generally static or assume safe default shapes. Form submissions (Feedback/Review) will require graceful degradation strategies.

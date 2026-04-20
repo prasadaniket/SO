@@ -1,31 +1,35 @@
-# Directory Structure
+# Structure
 
-## Repository Layout
-``` text
-/
-├── client/           # Customer-facing Next.js application
-├── cms/              # Admin-facing Next.js application
-└── server/           # Java Spring Boot backend
+## Directory Layout
+The primary frontend application lives in `h:\UniCord\StoneOven\client\`.
+
+```text
+client/
+├── src/
+│   ├── app/                    # Next.js App Router root
+│   │   ├── outlet/
+│   │   │   └── [code]/         # Dynamic route for specific outlet locations
+│   │   │       ├── menu/       # Nested menu page
+│   │   │       ├── feedback/   # 1st Visit feedback page
+│   │   │       ├── review/     # Review submission page
+│   │   │       └── page.tsx    # Outlet Landing Page
+│   │   ├── globals.css         # Global tailwind imports
+│   │   └── layout.tsx          # Root container and meta layout
+│   ├── components/             # Reusable UI Blocks
+│   │   ├── home/               # Homepage unique modules
+│   │   ├── boisar/             # Boisar outlet logic
+│   │   ├── palghar/            # Palghar outlet logic
+│   │   ├── vasai/              # Vasai outlet logic
+│   │   ├── virar/              # Virar outlet logic
+│   │   ├── form2/              # Modular form components (like review.tsx)
+│   │   ├── social/             # Social media layout components
+│   │   └── ui/                 # Global UI atoms (GlobalFooter, Navbar)
+│   ├── hooks/                  # Custom React hooks
+│   ├── lib/                    # Helper libraries and utilities
+│   ├── styles/                 # Ancillary stylesheets
+│   └── types/                  # Global TypeScript Interfaces
 ```
 
-## Client Subdirectories (`/client`)
-- `src/app/` - Next.js App Router entry points, pages, and layout structure.
-- `src/components/` - Reusable UI elements (React components). Includes `ui` (Avatar, Button, Select, etc) and `layout/Footer`.
-- `src/hooks/` - Custom React hooks for shared logic.
-- `src/lib/` - Utility functions, configurations, and API clients.
-- `src/styles/` - Global CSS/Tailwind definitions.
-- `src/types/` - TypeScript typings and interfaces.
-
-## CMS Subdirectories (`/cms`)
-- Follows the exact same Next.js App Router structure as `/client`.
-- `src/app/`, `src/components/`, `src/hooks/`, `src/lib/`, `src/styles/`, `src/types/`.
-
-## Server Subdirectories (`/server`)
-- `src/main/java/` - Core Java source code files.
-- `src/main/resources/` - Properties files, config logic, Thymeleaf templates.
-- `src/test/` - Contains unit and integration tests for backend endpoints and services.
-
-## Key Configuration Files
-- `client/package.json` & `client/tailwind.config.ts`: Client dependencies and styling config.
-- `cms/package.json` & `cms/tailwind.config.ts`: CMS dependencies and styling config.
-- `server/pom.xml`: Backend maven dependencies and build plugins.
+## Naming Conventions
+- React Components: PascalCase filenames are sometimes used (e.g., `GlobalFooter.tsx`), though some domains strictly use lowercase folder matching (e.g., `boisar/boisar.tsx`, `review.tsx`).
+- Next.js Routes: Strict lowercase (`page.tsx`, `layout.tsx`).

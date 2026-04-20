@@ -26,7 +26,7 @@ export default function MenuItemCard({ item }: MenuItemCardProps) {
           <p className="text-xs text-secondary-light mt-0.5 line-clamp-2">{item.description}</p>
         )}
         {displayPrice && (
-          <p className="text-sm font-bold text-primary mt-1">{displayPrice}</p>
+          <p className="text-sm font-bold text-gradient-primary mt-1">{displayPrice}</p>
         )}
       </div>
       {item.imageUrl && (

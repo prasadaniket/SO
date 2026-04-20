@@ -12,7 +12,7 @@ const delay = (ms = 300) => new Promise((r) => setTimeout(r, ms))
 
 const MOCK_OUTLETS: Outlet[] = [
   {
-    id: 'outlet-001', code: 'BSR',
+    id: 'outlet-001', code: 'BSR', slug: 'boisar',
     name: 'Stone Oven Boisar', location: 'Boisar, Palghar',
     address: 'Shop 4, Mahavir Complex, Station Road, Boisar, Palghar 401501',
     googlePlaceId: 'ChIJ_boisar_place_id',
@@ -22,7 +22,7 @@ const MOCK_OUTLETS: Outlet[] = [
     isActive: true, createdAt: '2024-01-01T00:00:00Z', updatedAt: '2024-01-01T00:00:00Z',
   },
   {
-    id: 'outlet-002', code: 'PLG',
+    id: 'outlet-002', code: 'PLG', slug: 'palghar',
     name: 'Stone Oven Palghar', location: 'Palghar, Maharashtra',
     address: 'Shop 12, Sai Complex, Manor Road, Palghar 401404',
     googlePlaceId: 'ChIJ_palghar_place_id',
@@ -32,7 +32,7 @@ const MOCK_OUTLETS: Outlet[] = [
     isActive: true, createdAt: '2024-02-01T00:00:00Z', updatedAt: '2024-02-01T00:00:00Z',
   },
   {
-    id: 'outlet-003', code: 'VIR',
+    id: 'outlet-003', code: 'VIR', slug: 'virar',
     name: 'Stone Oven Virar', location: 'Virar West, Palghar',
     address: 'Unit 7, Lotus Mall, Virar West, Palghar 401303',
     googlePlaceId: 'ChIJ_virar_place_id',
@@ -42,7 +42,7 @@ const MOCK_OUTLETS: Outlet[] = [
     isActive: true, createdAt: '2024-03-01T00:00:00Z', updatedAt: '2024-03-01T00:00:00Z',
   },
   {
-    id: 'outlet-004', code: 'VSI',
+    id: 'outlet-004', code: 'VSI', slug: 'vasai',
     name: 'Stone Oven Vasai', location: 'Vasai West, Palghar',
     address: 'Shop 3, Riddhi Plaza, Vasai West, Palghar 401202',
     googlePlaceId: 'ChIJ_vasai_place_id',

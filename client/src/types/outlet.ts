@@ -1,6 +1,7 @@
 export interface Outlet {
   id: string
   code: string
+  slug?: string
   name: string
   location: string
   address: string

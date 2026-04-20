@@ -1,17 +1,12 @@
 # Integrations
 
 ## Overview
-This document outlines the external services, APIs, and databases integrated within the StoneOven codebase.
+The application functions primarily as a frontend marketing and user experience portal for StoneOven outlets.
 
-## Databases & Middleware
-- **PostgreSQL**: Primary relational database for persistent data storage on the backend (`server/pom.xml`).
-- **Redis**: In-memory data structure store used for caching and potentially session management on the backend (`server/pom.xml`).
+## External Services & APIs
+- **Google Maps**: Outlets map strictly to Google Maps URLs so users can seamlessly transition from the "Find on Google Maps" Call to Action directly into Google Maps interface.
+- **Social Media Links**: Social page redirections (Instagram, Facebook) are hardcoded into specific routing components and footers.
 
-## External APIs & Services
-- **Twilio**: Integrated in the Spring Boot backend (`com.twilio.sdk:twilio:11.4.0`) to handle WhatsApp messaging, likely for sending order confirmations, QR code links, or OTPs.
-
-## Auth & Identity Providers
-- **JWT (JSON Web Tokens)**: Used for stateless authentication across the platform (`io.jsonwebtoken:jjwt`), coupled with Spring Security (`server/pom.xml`). No third-party OAuth providers are explicitly present in the dependency tree at this time.
-
-## Fingerprinting
-- **FingerprintJS**: Used in the client frontend (`@fingerprintjs/fingerprintjs`) for device fingerprinting, potentially to manage carts or sessions without explicit user login.
+## Backend Dependencies
+- Currently operates largely as a static/client-side dynamic site. Menu items, locations, and testimonials are usually driven by local configuration structures or client-side JSON maps, passing metadata like `outlet.googleMapsUrl` dynamically down to client components. 
+- *Note*: As feedback and review features (`app/outlet/[code]/feedback` & `review`) are built out, they will likely integrate with backend form aggregation services or direct server actions.

@@ -1,52 +1,25 @@
 # Tech Stack
 
 ## Overview
-StoneOven is a multi-repo project with a Java Spring Boot backend and two Next.js frontend applications (Client and CMS). 
+StoneOven is a responsive web application built with the Next.js App Router, prioritizing a high-end visual aesthetic and buttery smooth client-side interactions.
 
-## Front-ends (`client` and `cms`)
+## Core Technologies
+- **Framework**: Next.js 16 (App Router paradigm)
+- **UI Library**: React 19
+- **Language**: TypeScript for strict typing across components and data definitions
+- **Styling**: Tailwind CSS
+- **Motion & Animations**: Framer Motion (extensively used for hover effects, page load delays, scaling, and premium micro-interactions)
+- **Icons**: Lucide React
 
-### Core
-- **Framework**: `Next.js 16.2.4`
-- **UI Library**: `React 19`
-- **Language**: `TypeScript`
+## Package Manager
+- `npm` (running inside `client/` directory)
 
-### Styling & UI
-- **CSS Framework**: `Tailwind CSS 3.4.4`
-- **Animation**: `Framer Motion` (client)
-- **Icons**: `Lucide React` (cms), Raw SVGs (client footer)
-- **Component Libraries**: `@radix-ui/react-avatar` (cms/client)
+## Dependency Highlights
+- `next`: `16.2.4` (or similar recent 16.x distribution)
+- `react`, `react-dom`: `19.x`
+- `framer-motion`: For fluid UI dynamics
+- `lucide-react`: High-quality unstyled SVG scalable icons
 
-### UI Patterns
-- **Linktree Aesthetic**: The `client` app employs a "Linktree" or "Link-in-bio" mobile-first aesthetic with immersive gradients (`#E88C3A` to `#1E2024`), rounded pills, semi-transparent overlays, and centered layouts.
-
-### State Management & Data Fetching
-- **HTTP Client**: `axios`
-- **Form Handling**: `react-hook-form`
-- **Validation**: `zod`, `@hookform/resolvers`
-
-### Utilities
-- **Date Formatting**: `date-fns`
-- **Class Merging**: `clsx`, `tailwind-merge`, `class-variance-authority`
-- **Fingerprinting**: `@fingerprintjs/fingerprintjs` (client)
-
-## Back-end (`server`)
-
-### Core
-- **Runtime**: `Java 17`
-- **Framework**: `Spring Boot 3.5.13`
-- **Build Tool**: `Maven`
-
-### Data & Persistence
-- **Database**: `PostgreSQL`
-- **ORM**: `Spring Data JPA`
-- **Caching**: `Spring Data Redis`
-
-### Security
-- **Authentication**: `Spring Security`
-- **Tokens**: `JJWT 0.13.0` (JSON Web Tokens)
-
-### Utilities
-- **Boilerplate Reduction**: `Lombok 1.18.44`
-- **Object Mapping**: `MapStruct 1.6.3`
-- **Templating**: `Thymeleaf`
-- **Misc**: `commons-csv`
+## Configuration
+- Standard `next.config.js` or `.mjs`
+- Tailwind setup heavily leveraging custom Hex codes (e.g., `#F2A65A`, `#111111`, `#EEEEEE`) directly injected via inline classes or structured class variables.
