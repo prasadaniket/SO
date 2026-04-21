@@ -1,10 +1,11 @@
 # Concerns
 
-## Technical Debt & Maintenance
-- **Data Duplication**: The hardcoded layout configuration array elements present across `boisar.tsx`, `palghar.tsx`, `vasai.tsx`, and `virar.tsx` have been highly synchronized (recently all receiving the identical sleek UI pill update). However, keeping 4 disconnected component variants completely aligned visually requires manual effort. Changes to one usually compel changing all, creating significant maintenance overhead and room for UI regressions if not carefully audited.
-- **Form State Tracking**: The feedback and review portals currently rely heavily on standard React forms. State management, validations, and graceful server-integration errors must be consistently maintained as they are completely decoupled from context providers currently. 
+## Technical Debt & Synchronization
+- **Component Duplicity Overhead**: Extensive hard-coded array rendering and component mappings exist disjointedly across similar geographic layout definitions mapping (e.g., `boisar`, `vasai`, etc.). Synchronisation requires multi-file audits currently. As the `cms/` platform matures, converting discrete hardcoded elements towards centralized remote dynamic configuration variables fetched via backend services is essential.
+- **Form Cohesion**: Disconnected form implementations managing validations independently without a unified robust tracking pattern inside the feedback loop. 
 
 ## Areas of Future Focus
-- Integrating the global footer centrally on purely isolated specific route segments.
-- Implementing absolute dark-theme persistence without layout pop-in.
-- Further reducing repetition by driving these static outlet variants through a unified CMS or more exhaustive shared configuration `OutletParams` type dictionary.
+- Ensure cross-validation alignment where the robust `zod` schema checks on the client accurately map to the Java `@Validation` constraints configured server-side.
+- Managing potential cold-start overhead when dynamically generating layout variations heavily leveraging complex spatial animations.
+- Expanding global dark-mode persistence implementations without frame flash flickering securely between the main application interface endpoints.
+- Unifying duplicated layout UI across outlets into singular layouts configurable via CMS.

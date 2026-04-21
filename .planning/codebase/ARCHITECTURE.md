@@ -1,17 +1,21 @@
 # Architecture
 
-## Core Pattern
-StoneOven follows a **Component-Based Architecture** orchestrated through the Next.js **App Router** (`client/src/app`). It distinguishes firmly between global layouts and dynamic, slug-based routing.
+## Decoupled System Architecture
+StoneOven isolates heavy backend business logic and caching from its dynamic frontend interaction endpoints.
 
-## Global Routing
-- `client/src/app` drives the application routing.
-- Specific dynamic branches like `app/outlet/[code]/page.tsx` serve as high-level Controller components. These components fetch or determine configuration state (e.g., matching the `[code]` parameter to a specific location like `boisar` or `vasai`).
+## Monorepo Layout
+The project uses a clear separation:
+- `server/`: The authoritative monolithic Java backend controlling core business logic, the database, authentication, and external messaging queues.
+- `client/`: Parent directory utilizing npm workspaces to manage frontend apps.
+  - `client/main/`: The public-facing Next.js website for StoneOven customers natively generating complex UI pages.
+  - `client/cms/`: The internal Next.js application for staff/admin to manage content and inspect operational analytics.
+  - `client/shared/`: Shared module utilities.
 
-## Component Modularity
-- **Outlet Components**: Each outlet has a self-governing component (e.g., `components/boisar/boisar.tsx`) that houses visually customized (but structurally similar) layouts for local marketing.
-- **UI Components**: Global navigation (`Navbar`), footprint elements (`GlobalFooter.tsx`), and specific form handlers (`review.tsx`) are isolated and instantiated globally. 
-- **Decoupled Features**: Review logic, social linking, and feedback have recently been specifically decoupled out of the raw outlet page files and into independent routes (`/outlet/[code]/feedback`, `/outlet/[code]/review`).
+## Backend (Spring Boot 3.x)
+- Constructed strictly using a typical layered Controller (REST Endpoint) -> Service (Business Execution) -> Repository (Data Store) model.
+- Strongly typed request/responses handled via MapStruct DTO configurations.
+- API endpoints are heavily secured through stateless JWT validation mechanisms handled centrally.
 
-## State & Data Flow
-- Standard React unidirectional data flow. Information like device context or outlet-specific strings (`code`, `name`) are passed down as `props` or extrapolated from URL params in the layout structure.
-- Animations trigger strictly on client-side state (`whileHover`, `whileTap`) via Framer Motion without blocking the main event loops.
+## Frontend (Next.js App Router)
+- **Dynamic Controller Layouts**: Branches like `client/main/src/app/outlet/[route]` serve as high-level Controller components querying or determining static geographic configurations.
+- **Component Modularity**: Distinguishes firmly between UI presentational layout configurations (e.g., `components/boisar/`) and abstract global components (e.g., global footers, modular form logic isolated independently like feedback and reviews in specific sub-routes).

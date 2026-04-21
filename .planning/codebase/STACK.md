@@ -1,25 +1,26 @@
 # Tech Stack
 
 ## Overview
-StoneOven is a responsive web application built with the Next.js App Router, prioritizing a high-end visual aesthetic and buttery smooth client-side interactions.
+StoneOven is a full-stack application leveraging a robust architecture that mixes a high-end visual frontend with a scalable relational backend. The application features a monorepo setup for the frontend and a decoupled Java Spring Boot service for the backend.
 
-## Core Technologies
+## Frontend (client/)
+- **Architecture**: Monorepo using `npm` workspaces containing `main` (public app) and `cms` (admin portal).
 - **Framework**: Next.js 16 (App Router paradigm)
-- **UI Library**: React 19
-- **Language**: TypeScript for strict typing across components and data definitions
+- **UI & Patterns**: React 19, TypeScript
 - **Styling**: Tailwind CSS
-- **Motion & Animations**: Framer Motion (extensively used for hover effects, page load delays, scaling, and premium micro-interactions)
-- **Icons**: Lucide React
+- **Animations**: Framer Motion for buttery-smooth dynamic UX and micro-interactions.
+- **Form Management**: `react-hook-form`, validated dynamically with `zod`.
+- **Icons**: Lucide React.
+- **Charts**: `recharts` for CMS visualization data.
 
-## Package Manager
-- `npm` (running inside `client/` directory)
+## Backend (server/)
+- **Framework**: Spring Boot 3.5.13 (Java 17)
+- **Database Layer**: PostgreSQL driven by Spring Data JPA
+- **Caching & Brokers**: Redis via Spring Boot Starter Data Redis
+- **Security**: Spring Security coupled with JWT authentication (`io.jsonwebtoken`)
+- **DTO Mapping**: MapStruct for strict, boilerplate-free data transfer object mapping.
+- **Utilities**: Lombok for reducing Java boilerplate.
 
-## Dependency Highlights
-- `next`: `16.2.4` (or similar recent 16.x distribution)
-- `react`, `react-dom`: `19.x`
-- `framer-motion`: For fluid UI dynamics
-- `lucide-react`: High-quality unstyled SVG scalable icons
-
-## Configuration
-- Standard `next.config.js` or `.mjs`
-- Tailwind setup heavily leveraging custom Hex codes (e.g., `#F2A65A`, `#111111`, `#EEEEEE`) directly injected via inline classes or structured class variables.
+## Package Managers & Tools
+- `npm` inside `client/` (Using concurrently for local execution)
+- `Maven` for `server/` resolution
