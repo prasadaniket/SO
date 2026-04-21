@@ -25,3 +25,12 @@ Thumbs.db
 *.env.development.local
 *.env.test.local
 *.env.production.local
+
+# Monorepo app-specific build artifacts
+client/main/node_modules/
+client/main/.next/
+client/main/out/
+client/cms/node_modules/
+client/cms/.next/
+client/cms/out/
+client/node_modules/
