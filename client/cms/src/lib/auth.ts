@@ -1,11 +1,12 @@
 import type { LoginResponse } from '@/types/api'
 
-const TOKEN_KEY = 'cms_token'
-const USER_KEY  = 'cms_user'
+const TOKEN_KEY   = 'cms_token'
+const REFRESH_KEY = 'cms_refresh_token'
+const USER_KEY    = 'cms_user'
 
 // ─── Cookie helpers ────────────────────────────────────────────────────────────
 
-function setCookie(name: string, value: string, days = 1) {
+function setCookie(name: string, value: string, days = 7) {
   if (typeof document === 'undefined') return
   const expires = new Date(Date.now() + days * 864e5).toUTCString()
   // path=/ ensures the cookie is readable by the middleware at any route
@@ -28,11 +29,18 @@ function deleteCookie(name: string) {
 // ─── Session API ───────────────────────────────────────────────────────────────
 
 export const saveSession = (data: LoginResponse) => {
-  setCookie(TOKEN_KEY, data.token)
+  setCookie(TOKEN_KEY,   data.token)
+  if (data.refreshToken) setCookie(REFRESH_KEY, data.refreshToken)
   setCookie(USER_KEY, JSON.stringify(data))
 }
 
-export const getToken = (): string | null => getCookie(TOKEN_KEY)
+export const getToken        = (): string | null => getCookie(TOKEN_KEY)
+export const getRefreshToken = (): string | null => getCookie(REFRESH_KEY)
+
+export const saveTokens = (accessToken: string, refreshToken: string) => {
+  setCookie(TOKEN_KEY,   accessToken)
+  setCookie(REFRESH_KEY, refreshToken)
+}
 
 export const getUser = (): LoginResponse | null => {
   const raw = getCookie(USER_KEY)
@@ -45,6 +53,7 @@ export const getUser = (): LoginResponse | null => {
 
 export const clearSession = () => {
   deleteCookie(TOKEN_KEY)
+  deleteCookie(REFRESH_KEY)
   deleteCookie(USER_KEY)
 }
 

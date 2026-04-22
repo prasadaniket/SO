@@ -16,6 +16,7 @@ export interface PageResponse<T> {
 
 export interface LoginResponse {
   token: string
+  refreshToken?: string
   userId: string
   fullName: string
   email: string

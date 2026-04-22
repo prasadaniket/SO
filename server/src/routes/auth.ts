@@ -51,6 +51,33 @@ router.post('/login', async (req, res, next) => {
   }
 })
 
+// POST /auth/refresh — exchange refresh token for a new access token
+router.post('/refresh', async (req, res, next) => {
+  try {
+    const { refreshToken } = req.body
+    if (!refreshToken) {
+      res.status(401).json({ error: 'No refresh token provided' })
+      return
+    }
+
+    const { data, error } = await supabaseAdmin.auth.refreshSession({
+      refresh_token: refreshToken,
+    })
+
+    if (error || !data.session) {
+      res.status(401).json({ error: 'Session refresh failed — please log in again' })
+      return
+    }
+
+    res.json({
+      token:        data.session.access_token,
+      refreshToken: data.session.refresh_token,
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
 // GET /cms/me — session restoration
 router.get('/me', requireAuth, async (req, res, next) => {
   try {
