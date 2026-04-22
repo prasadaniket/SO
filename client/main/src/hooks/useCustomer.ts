@@ -15,10 +15,12 @@ export const useCustomer = (deviceId: string | null) => {
     api.get<Customer>(`/customers/by-device/${deviceId}`)
       .then((res) => setCustomer(res.data))
       .catch((err) => {
-        if (err.response?.status !== 404) {
-          setError('Failed to load customer data')
+        if (err.response?.status === 404) {
+          // Expected — new device, no customer record yet
+          return
         }
-        // 404 = new customer, that's fine
+        setError('Failed to load customer data')
+        console.error('[useCustomer]', err.message)
       })
       .finally(() => setLoading(false))
   }, [deviceId])
