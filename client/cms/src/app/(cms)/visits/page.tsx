@@ -31,9 +31,9 @@ export default function VisitsPage() {
       {stats && (
         <>
           <div className="grid grid-cols-2 gap-4 mb-6">
-            <StatCard title="Total Visits" value={stats.totalVisits} color="primary" />
-            <StatCard title="Inactive" value={stats.inactiveCustomers} color="error" subtitle="No visit in 30+ days" />
-            <StatCard title="Active" value={stats.totalCustomers - stats.inactiveCustomers} color="success" subtitle="Last 30 days" />
+            <StatCard title="Total Visits"  value={stats.totalVisits}                                            color="primary" />
+            <StatCard title="Inactive"      value={stats.inactiveCustomers}                                      color="error"   subtitle="No visit in 30+ days" />
+            <StatCard title="Active"        value={(stats.totalCustomers ?? 0) - (stats.inactiveCustomers ?? 0)} color="success" subtitle="Last 30 days" />
           </div>
 
           {user?.role === 'main_owner' && stats.outletStats && (

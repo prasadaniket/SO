@@ -14,10 +14,15 @@ const colorMap = {
 }
 
 export default function StatCard({ title, value, color = 'primary', subtitle }: StatCardProps) {
+  // Coerce null/undefined/NaN to '—' so React never receives NaN as children
+  const display = value === null || value === undefined || (typeof value === 'number' && isNaN(value))
+    ? '—'
+    : value
+
   return (
     <div className={`bg-white rounded-xl p-4 shadow-sm border border-neutral-light/50 border-l-4 ${colorMap[color]}`}>
       <p className="text-xs text-secondary-light font-medium">{title}</p>
-      <p className="text-2xl font-bold text-secondary mt-1">{value}</p>
+      <p className="text-2xl font-bold text-secondary mt-1">{display}</p>
       {subtitle && <p className="text-xs text-secondary-light mt-1">{subtitle}</p>}
     </div>
   )
