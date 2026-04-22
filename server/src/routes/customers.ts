@@ -36,19 +36,39 @@ router.get('/by-device/:deviceId', async (req, res, next) => {
   }
 })
 
-// POST /customers
+// POST /customers — upsert on deviceId so re-submission doesn't 500
 router.post('/', async (req, res, next) => {
   try {
     const body = CreateCustomerSchema.parse(req.body)
 
-    const customer = await prisma.customer.create({
-      data: {
-        ...body,
-        birthDate: new Date(body.birthDate),
-        anniversaryDate: body.anniversaryDate
-          ? new Date(body.anniversaryDate)
-          : null,
-        lastVisitDate: new Date(),
+    const parsedBirth = new Date(body.birthDate)
+    const parsedAnniversary = body.anniversaryDate ? new Date(body.anniversaryDate) : null
+
+    const customer = await prisma.customer.upsert({
+      where: { deviceId: body.deviceId },
+      create: {
+        deviceId:           body.deviceId,
+        fullName:           body.fullName,
+        phone:              body.phone,
+        email:              body.email ?? null,
+        birthDate:          parsedBirth,
+        anniversaryDate:    parsedAnniversary,
+        gender:             body.gender,
+        maritalStatus:      body.maritalStatus,
+        firstVisitOutletId: body.firstVisitOutletId ?? null,
+        lastVisitDate:      new Date(),
+        totalVisits:        1,
+      },
+      update: {
+        // On re-submit: update personal info but keep firstVisitOutletId unchanged
+        fullName:        body.fullName,
+        phone:           body.phone,
+        email:           body.email ?? null,
+        birthDate:       parsedBirth,
+        anniversaryDate: parsedAnniversary,
+        gender:          body.gender,
+        maritalStatus:   body.maritalStatus,
+        lastVisitDate:   new Date(),
       },
     })
 
