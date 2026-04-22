@@ -53,10 +53,10 @@ export default function ReviewForm({ customer, outlet, onSuccess }: Props) {
   }
 
   const handleGoogleReview = () => {
-    window.open(
-      `https://search.google.com/local/writereview?placeid=${outlet.googlePlaceId}`,
-      '_blank'
-    )
+    const reviewUrl = outlet.googleMapsUrl
+    if (reviewUrl) {
+      window.open(reviewUrl, '_blank', 'noopener,noreferrer')
+    }
     setShowGooglePopup(false)
     onSuccess?.()
   }

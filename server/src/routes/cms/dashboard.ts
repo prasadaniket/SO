@@ -36,7 +36,7 @@ router.get('/stats', async (req, res, next) => {
     const { start: monthStart, end: monthEnd } = monthRange()
 
     const customerOutletWhere = isMainOwner
-      ? {}
+      ? { firstVisitOutletId: { in: outletIds } }
       : { firstVisitOutletId: req.staff!.assignedOutletId ?? '' }
 
     const [
@@ -57,14 +57,11 @@ router.get('/stats', async (req, res, next) => {
         where: { outletId: { in: outletIds } },
         _avg: { stars: true },
       }),
-      // No visit in 30+ days
+      // No visit in 30+ days (excludes never-visited customers)
       prisma.customer.count({
         where: {
           ...customerOutletWhere,
-          OR: [
-            { lastVisitDate: { lt: thirtyDaysAgo } },
-            { lastVisitDate: null },
-          ],
+          lastVisitDate: { lt: thirtyDaysAgo },
         },
       }),
       // New in last 7 days
@@ -105,10 +102,7 @@ router.get('/stats', async (req, res, next) => {
               prisma.customer.count({
                 where: {
                   firstVisitOutletId: outlet.id,
-                  OR: [
-                    { lastVisitDate: { lt: thirtyDaysAgo } },
-                    { lastVisitDate: null },
-                  ],
+                  lastVisitDate: { lt: thirtyDaysAgo },
                 },
               }),
             ])
