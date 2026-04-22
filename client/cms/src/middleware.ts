@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
+// These are the pathname values as Next.js sees them AFTER stripping basePath (/cms)
 const PUBLIC_PATHS = ['/login']
 
 export function middleware(request: NextRequest) {
@@ -11,11 +12,18 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Check for session cookie set by the login route
+  // Allow Next.js internals
+  if (pathname.startsWith('/_next') || pathname.startsWith('/api') || pathname === '/favicon.ico') {
+    return NextResponse.next()
+  }
+
   const token = request.cookies.get('cms_token')?.value
 
   if (!token) {
-    const loginUrl = new URL('/login', request.url)
+    // Build the redirect URL preserving the base origin
+    // basePath (/cms) is prepended automatically by Next.js when we use nextUrl
+    const loginUrl = request.nextUrl.clone()
+    loginUrl.pathname = '/login'
     loginUrl.searchParams.set('from', pathname)
     return NextResponse.redirect(loginUrl)
   }
@@ -24,8 +32,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    // Protect all routes except _next static, api, and favicon
-    '/((?!_next/static|_next/image|favicon.ico|api/).*)',
-  ],
+  // Run on all paths — we manually filter inside the function
+  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 }

@@ -1616,6 +1616,7 @@ export namespace Prisma {
     reviews: number
     visits: number
     menuCategories: number
+    staff: number
   }
 
   export type OutletCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1623,6 +1624,7 @@ export namespace Prisma {
     reviews?: boolean | OutletCountOutputTypeCountReviewsArgs
     visits?: boolean | OutletCountOutputTypeCountVisitsArgs
     menuCategories?: boolean | OutletCountOutputTypeCountMenuCategoriesArgs
+    staff?: boolean | OutletCountOutputTypeCountStaffArgs
   }
 
   // Custom InputTypes
@@ -1662,6 +1664,13 @@ export namespace Prisma {
    */
   export type OutletCountOutputTypeCountMenuCategoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MenuCategoryWhereInput
+  }
+
+  /**
+   * OutletCountOutputType without action
+   */
+  export type OutletCountOutputTypeCountStaffArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StaffWhereInput
   }
 
 
@@ -1981,6 +1990,7 @@ export namespace Prisma {
     reviews?: boolean | Outlet$reviewsArgs<ExtArgs>
     visits?: boolean | Outlet$visitsArgs<ExtArgs>
     menuCategories?: boolean | Outlet$menuCategoriesArgs<ExtArgs>
+    staff?: boolean | Outlet$staffArgs<ExtArgs>
     _count?: boolean | OutletCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["outlet"]>
 
@@ -2038,6 +2048,7 @@ export namespace Prisma {
     reviews?: boolean | Outlet$reviewsArgs<ExtArgs>
     visits?: boolean | Outlet$visitsArgs<ExtArgs>
     menuCategories?: boolean | Outlet$menuCategoriesArgs<ExtArgs>
+    staff?: boolean | Outlet$staffArgs<ExtArgs>
     _count?: boolean | OutletCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OutletIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2050,6 +2061,7 @@ export namespace Prisma {
       reviews: Prisma.$ReviewPayload<ExtArgs>[]
       visits: Prisma.$CustomerVisitPayload<ExtArgs>[]
       menuCategories: Prisma.$MenuCategoryPayload<ExtArgs>[]
+      staff: Prisma.$StaffPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2463,6 +2475,7 @@ export namespace Prisma {
     reviews<T extends Outlet$reviewsArgs<ExtArgs> = {}>(args?: Subset<T, Outlet$reviewsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     visits<T extends Outlet$visitsArgs<ExtArgs> = {}>(args?: Subset<T, Outlet$visitsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CustomerVisitPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     menuCategories<T extends Outlet$menuCategoriesArgs<ExtArgs> = {}>(args?: Subset<T, Outlet$menuCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MenuCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    staff<T extends Outlet$staffArgs<ExtArgs> = {}>(args?: Subset<T, Outlet$staffArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2991,6 +3004,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MenuCategoryScalarFieldEnum | MenuCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * Outlet.staff
+   */
+  export type Outlet$staffArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Staff
+     */
+    select?: StaffSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Staff
+     */
+    omit?: StaffOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffInclude<ExtArgs> | null
+    where?: StaffWhereInput
+    orderBy?: StaffOrderByWithRelationInput | StaffOrderByWithRelationInput[]
+    cursor?: StaffWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StaffScalarFieldEnum | StaffScalarFieldEnum[]
   }
 
   /**
@@ -10274,6 +10311,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    assignedOutlet?: boolean | Staff$assignedOutletArgs<ExtArgs>
   }, ExtArgs["result"]["staff"]>
 
   export type StaffSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -10286,6 +10324,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    assignedOutlet?: boolean | Staff$assignedOutletArgs<ExtArgs>
   }, ExtArgs["result"]["staff"]>
 
   export type StaffSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -10298,6 +10337,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    assignedOutlet?: boolean | Staff$assignedOutletArgs<ExtArgs>
   }, ExtArgs["result"]["staff"]>
 
   export type StaffSelectScalar = {
@@ -10313,10 +10353,21 @@ export namespace Prisma {
   }
 
   export type StaffOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "email" | "phone" | "role" | "assignedOutletId" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["staff"]>
+  export type StaffInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignedOutlet?: boolean | Staff$assignedOutletArgs<ExtArgs>
+  }
+  export type StaffIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignedOutlet?: boolean | Staff$assignedOutletArgs<ExtArgs>
+  }
+  export type StaffIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    assignedOutlet?: boolean | Staff$assignedOutletArgs<ExtArgs>
+  }
 
   export type $StaffPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Staff"
-    objects: {}
+    objects: {
+      assignedOutlet: Prisma.$OutletPayload<ExtArgs> | null
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       fullName: string
@@ -10721,6 +10772,7 @@ export namespace Prisma {
    */
   export interface Prisma__StaffClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    assignedOutlet<T extends Staff$assignedOutletArgs<ExtArgs> = {}>(args?: Subset<T, Staff$assignedOutletArgs<ExtArgs>>): Prisma__OutletClient<$Result.GetResult<Prisma.$OutletPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10776,6 +10828,10 @@ export namespace Prisma {
      */
     omit?: StaffOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffInclude<ExtArgs> | null
+    /**
      * Filter, which Staff to fetch.
      */
     where: StaffWhereUniqueInput
@@ -10794,6 +10850,10 @@ export namespace Prisma {
      */
     omit?: StaffOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffInclude<ExtArgs> | null
+    /**
      * Filter, which Staff to fetch.
      */
     where: StaffWhereUniqueInput
@@ -10811,6 +10871,10 @@ export namespace Prisma {
      * Omit specific fields from the Staff
      */
     omit?: StaffOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffInclude<ExtArgs> | null
     /**
      * Filter, which Staff to fetch.
      */
@@ -10860,6 +10924,10 @@ export namespace Prisma {
      */
     omit?: StaffOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffInclude<ExtArgs> | null
+    /**
      * Filter, which Staff to fetch.
      */
     where?: StaffWhereInput
@@ -10907,6 +10975,10 @@ export namespace Prisma {
      * Omit specific fields from the Staff
      */
     omit?: StaffOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffInclude<ExtArgs> | null
     /**
      * Filter, which Staff to fetch.
      */
@@ -10956,6 +11028,10 @@ export namespace Prisma {
      */
     omit?: StaffOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffInclude<ExtArgs> | null
+    /**
      * The data needed to create a Staff.
      */
     data: XOR<StaffCreateInput, StaffUncheckedCreateInput>
@@ -10989,6 +11065,10 @@ export namespace Prisma {
      */
     data: StaffCreateManyInput | StaffCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -11003,6 +11083,10 @@ export namespace Prisma {
      * Omit specific fields from the Staff
      */
     omit?: StaffOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffInclude<ExtArgs> | null
     /**
      * The data needed to update a Staff.
      */
@@ -11055,6 +11139,10 @@ export namespace Prisma {
      * Limit how many Staff to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -11069,6 +11157,10 @@ export namespace Prisma {
      * Omit specific fields from the Staff
      */
     omit?: StaffOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffInclude<ExtArgs> | null
     /**
      * The filter to search for the Staff to update in case it exists.
      */
@@ -11096,6 +11188,10 @@ export namespace Prisma {
      */
     omit?: StaffOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffInclude<ExtArgs> | null
+    /**
      * Filter which Staff to delete.
      */
     where: StaffWhereUniqueInput
@@ -11116,6 +11212,25 @@ export namespace Prisma {
   }
 
   /**
+   * Staff.assignedOutlet
+   */
+  export type Staff$assignedOutletArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Outlet
+     */
+    select?: OutletSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Outlet
+     */
+    omit?: OutletOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OutletInclude<ExtArgs> | null
+    where?: OutletWhereInput
+  }
+
+  /**
    * Staff without action
    */
   export type StaffDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11127,6 +11242,10 @@ export namespace Prisma {
      * Omit specific fields from the Staff
      */
     omit?: StaffOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffInclude<ExtArgs> | null
   }
 
 
@@ -11542,6 +11661,7 @@ export namespace Prisma {
     reviews?: ReviewListRelationFilter
     visits?: CustomerVisitListRelationFilter
     menuCategories?: MenuCategoryListRelationFilter
+    staff?: StaffListRelationFilter
   }
 
   export type OutletOrderByWithRelationInput = {
@@ -11562,6 +11682,7 @@ export namespace Prisma {
     reviews?: ReviewOrderByRelationAggregateInput
     visits?: CustomerVisitOrderByRelationAggregateInput
     menuCategories?: MenuCategoryOrderByRelationAggregateInput
+    staff?: StaffOrderByRelationAggregateInput
   }
 
   export type OutletWhereUniqueInput = Prisma.AtLeast<{
@@ -11585,6 +11706,7 @@ export namespace Prisma {
     reviews?: ReviewListRelationFilter
     visits?: CustomerVisitListRelationFilter
     menuCategories?: MenuCategoryListRelationFilter
+    staff?: StaffListRelationFilter
   }, "id" | "code" | "slug" | "googlePlaceId">
 
   export type OutletOrderByWithAggregationInput = {
@@ -12119,6 +12241,7 @@ export namespace Prisma {
     isActive?: BoolFilter<"Staff"> | boolean
     createdAt?: DateTimeFilter<"Staff"> | Date | string
     updatedAt?: DateTimeFilter<"Staff"> | Date | string
+    assignedOutlet?: XOR<OutletNullableScalarRelationFilter, OutletWhereInput> | null
   }
 
   export type StaffOrderByWithRelationInput = {
@@ -12131,6 +12254,7 @@ export namespace Prisma {
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    assignedOutlet?: OutletOrderByWithRelationInput
   }
 
   export type StaffWhereUniqueInput = Prisma.AtLeast<{
@@ -12146,6 +12270,7 @@ export namespace Prisma {
     isActive?: BoolFilter<"Staff"> | boolean
     createdAt?: DateTimeFilter<"Staff"> | Date | string
     updatedAt?: DateTimeFilter<"Staff"> | Date | string
+    assignedOutlet?: XOR<OutletNullableScalarRelationFilter, OutletWhereInput> | null
   }, "id" | "email">
 
   export type StaffOrderByWithAggregationInput = {
@@ -12196,6 +12321,7 @@ export namespace Prisma {
     reviews?: ReviewCreateNestedManyWithoutOutletInput
     visits?: CustomerVisitCreateNestedManyWithoutOutletInput
     menuCategories?: MenuCategoryCreateNestedManyWithoutOutletInput
+    staff?: StaffCreateNestedManyWithoutAssignedOutletInput
   }
 
   export type OutletUncheckedCreateInput = {
@@ -12216,6 +12342,7 @@ export namespace Prisma {
     reviews?: ReviewUncheckedCreateNestedManyWithoutOutletInput
     visits?: CustomerVisitUncheckedCreateNestedManyWithoutOutletInput
     menuCategories?: MenuCategoryUncheckedCreateNestedManyWithoutOutletInput
+    staff?: StaffUncheckedCreateNestedManyWithoutAssignedOutletInput
   }
 
   export type OutletUpdateInput = {
@@ -12236,6 +12363,7 @@ export namespace Prisma {
     reviews?: ReviewUpdateManyWithoutOutletNestedInput
     visits?: CustomerVisitUpdateManyWithoutOutletNestedInput
     menuCategories?: MenuCategoryUpdateManyWithoutOutletNestedInput
+    staff?: StaffUpdateManyWithoutAssignedOutletNestedInput
   }
 
   export type OutletUncheckedUpdateInput = {
@@ -12256,6 +12384,7 @@ export namespace Prisma {
     reviews?: ReviewUncheckedUpdateManyWithoutOutletNestedInput
     visits?: CustomerVisitUncheckedUpdateManyWithoutOutletNestedInput
     menuCategories?: MenuCategoryUncheckedUpdateManyWithoutOutletNestedInput
+    staff?: StaffUncheckedUpdateManyWithoutAssignedOutletNestedInput
   }
 
   export type OutletCreateManyInput = {
@@ -12831,10 +12960,10 @@ export namespace Prisma {
     email: string
     phone?: string | null
     role: $Enums.StaffRole
-    assignedOutletId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    assignedOutlet?: OutletCreateNestedOneWithoutStaffInput
   }
 
   export type StaffUncheckedCreateInput = {
@@ -12855,10 +12984,10 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumStaffRoleFieldUpdateOperationsInput | $Enums.StaffRole
-    assignedOutletId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    assignedOutlet?: OutletUpdateOneWithoutStaffNestedInput
   }
 
   export type StaffUncheckedUpdateInput = {
@@ -12891,7 +13020,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumStaffRoleFieldUpdateOperationsInput | $Enums.StaffRole
-    assignedOutletId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12991,6 +13119,12 @@ export namespace Prisma {
     none?: MenuCategoryWhereInput
   }
 
+  export type StaffListRelationFilter = {
+    every?: StaffWhereInput
+    some?: StaffWhereInput
+    none?: StaffWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -13009,6 +13143,10 @@ export namespace Prisma {
   }
 
   export type MenuCategoryOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StaffOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13806,6 +13944,13 @@ export namespace Prisma {
     connect?: MenuCategoryWhereUniqueInput | MenuCategoryWhereUniqueInput[]
   }
 
+  export type StaffCreateNestedManyWithoutAssignedOutletInput = {
+    create?: XOR<StaffCreateWithoutAssignedOutletInput, StaffUncheckedCreateWithoutAssignedOutletInput> | StaffCreateWithoutAssignedOutletInput[] | StaffUncheckedCreateWithoutAssignedOutletInput[]
+    connectOrCreate?: StaffCreateOrConnectWithoutAssignedOutletInput | StaffCreateOrConnectWithoutAssignedOutletInput[]
+    createMany?: StaffCreateManyAssignedOutletInputEnvelope
+    connect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+  }
+
   export type CustomerUncheckedCreateNestedManyWithoutFirstVisitOutletInput = {
     create?: XOR<CustomerCreateWithoutFirstVisitOutletInput, CustomerUncheckedCreateWithoutFirstVisitOutletInput> | CustomerCreateWithoutFirstVisitOutletInput[] | CustomerUncheckedCreateWithoutFirstVisitOutletInput[]
     connectOrCreate?: CustomerCreateOrConnectWithoutFirstVisitOutletInput | CustomerCreateOrConnectWithoutFirstVisitOutletInput[]
@@ -13832,6 +13977,13 @@ export namespace Prisma {
     connectOrCreate?: MenuCategoryCreateOrConnectWithoutOutletInput | MenuCategoryCreateOrConnectWithoutOutletInput[]
     createMany?: MenuCategoryCreateManyOutletInputEnvelope
     connect?: MenuCategoryWhereUniqueInput | MenuCategoryWhereUniqueInput[]
+  }
+
+  export type StaffUncheckedCreateNestedManyWithoutAssignedOutletInput = {
+    create?: XOR<StaffCreateWithoutAssignedOutletInput, StaffUncheckedCreateWithoutAssignedOutletInput> | StaffCreateWithoutAssignedOutletInput[] | StaffUncheckedCreateWithoutAssignedOutletInput[]
+    connectOrCreate?: StaffCreateOrConnectWithoutAssignedOutletInput | StaffCreateOrConnectWithoutAssignedOutletInput[]
+    createMany?: StaffCreateManyAssignedOutletInputEnvelope
+    connect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -13906,6 +14058,20 @@ export namespace Prisma {
     deleteMany?: MenuCategoryScalarWhereInput | MenuCategoryScalarWhereInput[]
   }
 
+  export type StaffUpdateManyWithoutAssignedOutletNestedInput = {
+    create?: XOR<StaffCreateWithoutAssignedOutletInput, StaffUncheckedCreateWithoutAssignedOutletInput> | StaffCreateWithoutAssignedOutletInput[] | StaffUncheckedCreateWithoutAssignedOutletInput[]
+    connectOrCreate?: StaffCreateOrConnectWithoutAssignedOutletInput | StaffCreateOrConnectWithoutAssignedOutletInput[]
+    upsert?: StaffUpsertWithWhereUniqueWithoutAssignedOutletInput | StaffUpsertWithWhereUniqueWithoutAssignedOutletInput[]
+    createMany?: StaffCreateManyAssignedOutletInputEnvelope
+    set?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    disconnect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    delete?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    connect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    update?: StaffUpdateWithWhereUniqueWithoutAssignedOutletInput | StaffUpdateWithWhereUniqueWithoutAssignedOutletInput[]
+    updateMany?: StaffUpdateManyWithWhereWithoutAssignedOutletInput | StaffUpdateManyWithWhereWithoutAssignedOutletInput[]
+    deleteMany?: StaffScalarWhereInput | StaffScalarWhereInput[]
+  }
+
   export type CustomerUncheckedUpdateManyWithoutFirstVisitOutletNestedInput = {
     create?: XOR<CustomerCreateWithoutFirstVisitOutletInput, CustomerUncheckedCreateWithoutFirstVisitOutletInput> | CustomerCreateWithoutFirstVisitOutletInput[] | CustomerUncheckedCreateWithoutFirstVisitOutletInput[]
     connectOrCreate?: CustomerCreateOrConnectWithoutFirstVisitOutletInput | CustomerCreateOrConnectWithoutFirstVisitOutletInput[]
@@ -13960,6 +14126,20 @@ export namespace Prisma {
     update?: MenuCategoryUpdateWithWhereUniqueWithoutOutletInput | MenuCategoryUpdateWithWhereUniqueWithoutOutletInput[]
     updateMany?: MenuCategoryUpdateManyWithWhereWithoutOutletInput | MenuCategoryUpdateManyWithWhereWithoutOutletInput[]
     deleteMany?: MenuCategoryScalarWhereInput | MenuCategoryScalarWhereInput[]
+  }
+
+  export type StaffUncheckedUpdateManyWithoutAssignedOutletNestedInput = {
+    create?: XOR<StaffCreateWithoutAssignedOutletInput, StaffUncheckedCreateWithoutAssignedOutletInput> | StaffCreateWithoutAssignedOutletInput[] | StaffUncheckedCreateWithoutAssignedOutletInput[]
+    connectOrCreate?: StaffCreateOrConnectWithoutAssignedOutletInput | StaffCreateOrConnectWithoutAssignedOutletInput[]
+    upsert?: StaffUpsertWithWhereUniqueWithoutAssignedOutletInput | StaffUpsertWithWhereUniqueWithoutAssignedOutletInput[]
+    createMany?: StaffCreateManyAssignedOutletInputEnvelope
+    set?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    disconnect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    delete?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    connect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+    update?: StaffUpdateWithWhereUniqueWithoutAssignedOutletInput | StaffUpdateWithWhereUniqueWithoutAssignedOutletInput[]
+    updateMany?: StaffUpdateManyWithWhereWithoutAssignedOutletInput | StaffUpdateManyWithWhereWithoutAssignedOutletInput[]
+    deleteMany?: StaffScalarWhereInput | StaffScalarWhereInput[]
   }
 
   export type OutletCreateNestedOneWithoutCustomersInput = {
@@ -14308,8 +14488,24 @@ export namespace Prisma {
     update?: XOR<XOR<CustomerUpdateToOneWithWhereWithoutAutomationLogsInput, CustomerUpdateWithoutAutomationLogsInput>, CustomerUncheckedUpdateWithoutAutomationLogsInput>
   }
 
+  export type OutletCreateNestedOneWithoutStaffInput = {
+    create?: XOR<OutletCreateWithoutStaffInput, OutletUncheckedCreateWithoutStaffInput>
+    connectOrCreate?: OutletCreateOrConnectWithoutStaffInput
+    connect?: OutletWhereUniqueInput
+  }
+
   export type EnumStaffRoleFieldUpdateOperationsInput = {
     set?: $Enums.StaffRole
+  }
+
+  export type OutletUpdateOneWithoutStaffNestedInput = {
+    create?: XOR<OutletCreateWithoutStaffInput, OutletUncheckedCreateWithoutStaffInput>
+    connectOrCreate?: OutletCreateOrConnectWithoutStaffInput
+    upsert?: OutletUpsertWithoutStaffInput
+    disconnect?: OutletWhereInput | boolean
+    delete?: OutletWhereInput | boolean
+    connect?: OutletWhereUniqueInput
+    update?: XOR<XOR<OutletUpdateToOneWithWhereWithoutStaffInput, OutletUpdateWithoutStaffInput>, OutletUncheckedUpdateWithoutStaffInput>
   }
 
   export type NestedUuidFilter<$PrismaModel = never> = {
@@ -14885,6 +15081,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type StaffCreateWithoutAssignedOutletInput = {
+    id: string
+    fullName: string
+    email: string
+    phone?: string | null
+    role: $Enums.StaffRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StaffUncheckedCreateWithoutAssignedOutletInput = {
+    id: string
+    fullName: string
+    email: string
+    phone?: string | null
+    role: $Enums.StaffRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StaffCreateOrConnectWithoutAssignedOutletInput = {
+    where: StaffWhereUniqueInput
+    create: XOR<StaffCreateWithoutAssignedOutletInput, StaffUncheckedCreateWithoutAssignedOutletInput>
+  }
+
+  export type StaffCreateManyAssignedOutletInputEnvelope = {
+    data: StaffCreateManyAssignedOutletInput | StaffCreateManyAssignedOutletInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CustomerUpsertWithWhereUniqueWithoutFirstVisitOutletInput = {
     where: CustomerWhereUniqueInput
     update: XOR<CustomerUpdateWithoutFirstVisitOutletInput, CustomerUncheckedUpdateWithoutFirstVisitOutletInput>
@@ -15009,6 +15237,37 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"MenuCategory"> | Date | string
   }
 
+  export type StaffUpsertWithWhereUniqueWithoutAssignedOutletInput = {
+    where: StaffWhereUniqueInput
+    update: XOR<StaffUpdateWithoutAssignedOutletInput, StaffUncheckedUpdateWithoutAssignedOutletInput>
+    create: XOR<StaffCreateWithoutAssignedOutletInput, StaffUncheckedCreateWithoutAssignedOutletInput>
+  }
+
+  export type StaffUpdateWithWhereUniqueWithoutAssignedOutletInput = {
+    where: StaffWhereUniqueInput
+    data: XOR<StaffUpdateWithoutAssignedOutletInput, StaffUncheckedUpdateWithoutAssignedOutletInput>
+  }
+
+  export type StaffUpdateManyWithWhereWithoutAssignedOutletInput = {
+    where: StaffScalarWhereInput
+    data: XOR<StaffUpdateManyMutationInput, StaffUncheckedUpdateManyWithoutAssignedOutletInput>
+  }
+
+  export type StaffScalarWhereInput = {
+    AND?: StaffScalarWhereInput | StaffScalarWhereInput[]
+    OR?: StaffScalarWhereInput[]
+    NOT?: StaffScalarWhereInput | StaffScalarWhereInput[]
+    id?: UuidFilter<"Staff"> | string
+    fullName?: StringFilter<"Staff"> | string
+    email?: StringFilter<"Staff"> | string
+    phone?: StringNullableFilter<"Staff"> | string | null
+    role?: EnumStaffRoleFilter<"Staff"> | $Enums.StaffRole
+    assignedOutletId?: UuidNullableFilter<"Staff"> | string | null
+    isActive?: BoolFilter<"Staff"> | boolean
+    createdAt?: DateTimeFilter<"Staff"> | Date | string
+    updatedAt?: DateTimeFilter<"Staff"> | Date | string
+  }
+
   export type OutletCreateWithoutCustomersInput = {
     id?: string
     code: string
@@ -15026,6 +15285,7 @@ export namespace Prisma {
     reviews?: ReviewCreateNestedManyWithoutOutletInput
     visits?: CustomerVisitCreateNestedManyWithoutOutletInput
     menuCategories?: MenuCategoryCreateNestedManyWithoutOutletInput
+    staff?: StaffCreateNestedManyWithoutAssignedOutletInput
   }
 
   export type OutletUncheckedCreateWithoutCustomersInput = {
@@ -15045,6 +15305,7 @@ export namespace Prisma {
     reviews?: ReviewUncheckedCreateNestedManyWithoutOutletInput
     visits?: CustomerVisitUncheckedCreateNestedManyWithoutOutletInput
     menuCategories?: MenuCategoryUncheckedCreateNestedManyWithoutOutletInput
+    staff?: StaffUncheckedCreateNestedManyWithoutAssignedOutletInput
   }
 
   export type OutletCreateOrConnectWithoutCustomersInput = {
@@ -15166,6 +15427,7 @@ export namespace Prisma {
     reviews?: ReviewUpdateManyWithoutOutletNestedInput
     visits?: CustomerVisitUpdateManyWithoutOutletNestedInput
     menuCategories?: MenuCategoryUpdateManyWithoutOutletNestedInput
+    staff?: StaffUpdateManyWithoutAssignedOutletNestedInput
   }
 
   export type OutletUncheckedUpdateWithoutCustomersInput = {
@@ -15185,6 +15447,7 @@ export namespace Prisma {
     reviews?: ReviewUncheckedUpdateManyWithoutOutletNestedInput
     visits?: CustomerVisitUncheckedUpdateManyWithoutOutletNestedInput
     menuCategories?: MenuCategoryUncheckedUpdateManyWithoutOutletNestedInput
+    staff?: StaffUncheckedUpdateManyWithoutAssignedOutletNestedInput
   }
 
   export type ReviewUpsertWithWhereUniqueWithoutCustomerInput = {
@@ -15310,6 +15573,7 @@ export namespace Prisma {
     customers?: CustomerCreateNestedManyWithoutFirstVisitOutletInput
     visits?: CustomerVisitCreateNestedManyWithoutOutletInput
     menuCategories?: MenuCategoryCreateNestedManyWithoutOutletInput
+    staff?: StaffCreateNestedManyWithoutAssignedOutletInput
   }
 
   export type OutletUncheckedCreateWithoutReviewsInput = {
@@ -15329,6 +15593,7 @@ export namespace Prisma {
     customers?: CustomerUncheckedCreateNestedManyWithoutFirstVisitOutletInput
     visits?: CustomerVisitUncheckedCreateNestedManyWithoutOutletInput
     menuCategories?: MenuCategoryUncheckedCreateNestedManyWithoutOutletInput
+    staff?: StaffUncheckedCreateNestedManyWithoutAssignedOutletInput
   }
 
   export type OutletCreateOrConnectWithoutReviewsInput = {
@@ -15415,6 +15680,7 @@ export namespace Prisma {
     customers?: CustomerUpdateManyWithoutFirstVisitOutletNestedInput
     visits?: CustomerVisitUpdateManyWithoutOutletNestedInput
     menuCategories?: MenuCategoryUpdateManyWithoutOutletNestedInput
+    staff?: StaffUpdateManyWithoutAssignedOutletNestedInput
   }
 
   export type OutletUncheckedUpdateWithoutReviewsInput = {
@@ -15434,6 +15700,7 @@ export namespace Prisma {
     customers?: CustomerUncheckedUpdateManyWithoutFirstVisitOutletNestedInput
     visits?: CustomerVisitUncheckedUpdateManyWithoutOutletNestedInput
     menuCategories?: MenuCategoryUncheckedUpdateManyWithoutOutletNestedInput
+    staff?: StaffUncheckedUpdateManyWithoutAssignedOutletNestedInput
   }
 
   export type CustomerCreateWithoutVisitsInput = {
@@ -15498,6 +15765,7 @@ export namespace Prisma {
     customers?: CustomerCreateNestedManyWithoutFirstVisitOutletInput
     reviews?: ReviewCreateNestedManyWithoutOutletInput
     menuCategories?: MenuCategoryCreateNestedManyWithoutOutletInput
+    staff?: StaffCreateNestedManyWithoutAssignedOutletInput
   }
 
   export type OutletUncheckedCreateWithoutVisitsInput = {
@@ -15517,6 +15785,7 @@ export namespace Prisma {
     customers?: CustomerUncheckedCreateNestedManyWithoutFirstVisitOutletInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutOutletInput
     menuCategories?: MenuCategoryUncheckedCreateNestedManyWithoutOutletInput
+    staff?: StaffUncheckedCreateNestedManyWithoutAssignedOutletInput
   }
 
   export type OutletCreateOrConnectWithoutVisitsInput = {
@@ -15603,6 +15872,7 @@ export namespace Prisma {
     customers?: CustomerUpdateManyWithoutFirstVisitOutletNestedInput
     reviews?: ReviewUpdateManyWithoutOutletNestedInput
     menuCategories?: MenuCategoryUpdateManyWithoutOutletNestedInput
+    staff?: StaffUpdateManyWithoutAssignedOutletNestedInput
   }
 
   export type OutletUncheckedUpdateWithoutVisitsInput = {
@@ -15622,6 +15892,7 @@ export namespace Prisma {
     customers?: CustomerUncheckedUpdateManyWithoutFirstVisitOutletNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutOutletNestedInput
     menuCategories?: MenuCategoryUncheckedUpdateManyWithoutOutletNestedInput
+    staff?: StaffUncheckedUpdateManyWithoutAssignedOutletNestedInput
   }
 
   export type OutletCreateWithoutMenuCategoriesInput = {
@@ -15641,6 +15912,7 @@ export namespace Prisma {
     customers?: CustomerCreateNestedManyWithoutFirstVisitOutletInput
     reviews?: ReviewCreateNestedManyWithoutOutletInput
     visits?: CustomerVisitCreateNestedManyWithoutOutletInput
+    staff?: StaffCreateNestedManyWithoutAssignedOutletInput
   }
 
   export type OutletUncheckedCreateWithoutMenuCategoriesInput = {
@@ -15660,6 +15932,7 @@ export namespace Prisma {
     customers?: CustomerUncheckedCreateNestedManyWithoutFirstVisitOutletInput
     reviews?: ReviewUncheckedCreateNestedManyWithoutOutletInput
     visits?: CustomerVisitUncheckedCreateNestedManyWithoutOutletInput
+    staff?: StaffUncheckedCreateNestedManyWithoutAssignedOutletInput
   }
 
   export type OutletCreateOrConnectWithoutMenuCategoriesInput = {
@@ -15733,6 +16006,7 @@ export namespace Prisma {
     customers?: CustomerUpdateManyWithoutFirstVisitOutletNestedInput
     reviews?: ReviewUpdateManyWithoutOutletNestedInput
     visits?: CustomerVisitUpdateManyWithoutOutletNestedInput
+    staff?: StaffUpdateManyWithoutAssignedOutletNestedInput
   }
 
   export type OutletUncheckedUpdateWithoutMenuCategoriesInput = {
@@ -15752,6 +16026,7 @@ export namespace Prisma {
     customers?: CustomerUncheckedUpdateManyWithoutFirstVisitOutletNestedInput
     reviews?: ReviewUncheckedUpdateManyWithoutOutletNestedInput
     visits?: CustomerVisitUncheckedUpdateManyWithoutOutletNestedInput
+    staff?: StaffUncheckedUpdateManyWithoutAssignedOutletNestedInput
   }
 
   export type MenuItemUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -15936,6 +16211,102 @@ export namespace Prisma {
     visits?: CustomerVisitUncheckedUpdateManyWithoutCustomerNestedInput
   }
 
+  export type OutletCreateWithoutStaffInput = {
+    id?: string
+    code: string
+    slug: string
+    name: string
+    location?: string | null
+    address?: string | null
+    googlePlaceId: string
+    googleMapsUrl?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customers?: CustomerCreateNestedManyWithoutFirstVisitOutletInput
+    reviews?: ReviewCreateNestedManyWithoutOutletInput
+    visits?: CustomerVisitCreateNestedManyWithoutOutletInput
+    menuCategories?: MenuCategoryCreateNestedManyWithoutOutletInput
+  }
+
+  export type OutletUncheckedCreateWithoutStaffInput = {
+    id?: string
+    code: string
+    slug: string
+    name: string
+    location?: string | null
+    address?: string | null
+    googlePlaceId: string
+    googleMapsUrl?: string | null
+    instagramUrl?: string | null
+    facebookUrl?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    customers?: CustomerUncheckedCreateNestedManyWithoutFirstVisitOutletInput
+    reviews?: ReviewUncheckedCreateNestedManyWithoutOutletInput
+    visits?: CustomerVisitUncheckedCreateNestedManyWithoutOutletInput
+    menuCategories?: MenuCategoryUncheckedCreateNestedManyWithoutOutletInput
+  }
+
+  export type OutletCreateOrConnectWithoutStaffInput = {
+    where: OutletWhereUniqueInput
+    create: XOR<OutletCreateWithoutStaffInput, OutletUncheckedCreateWithoutStaffInput>
+  }
+
+  export type OutletUpsertWithoutStaffInput = {
+    update: XOR<OutletUpdateWithoutStaffInput, OutletUncheckedUpdateWithoutStaffInput>
+    create: XOR<OutletCreateWithoutStaffInput, OutletUncheckedCreateWithoutStaffInput>
+    where?: OutletWhereInput
+  }
+
+  export type OutletUpdateToOneWithWhereWithoutStaffInput = {
+    where?: OutletWhereInput
+    data: XOR<OutletUpdateWithoutStaffInput, OutletUncheckedUpdateWithoutStaffInput>
+  }
+
+  export type OutletUpdateWithoutStaffInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    googlePlaceId?: StringFieldUpdateOperationsInput | string
+    googleMapsUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customers?: CustomerUpdateManyWithoutFirstVisitOutletNestedInput
+    reviews?: ReviewUpdateManyWithoutOutletNestedInput
+    visits?: CustomerVisitUpdateManyWithoutOutletNestedInput
+    menuCategories?: MenuCategoryUpdateManyWithoutOutletNestedInput
+  }
+
+  export type OutletUncheckedUpdateWithoutStaffInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    googlePlaceId?: StringFieldUpdateOperationsInput | string
+    googleMapsUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    instagramUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    customers?: CustomerUncheckedUpdateManyWithoutFirstVisitOutletNestedInput
+    reviews?: ReviewUncheckedUpdateManyWithoutOutletNestedInput
+    visits?: CustomerVisitUncheckedUpdateManyWithoutOutletNestedInput
+    menuCategories?: MenuCategoryUncheckedUpdateManyWithoutOutletNestedInput
+  }
+
   export type CustomerCreateManyFirstVisitOutletInput = {
     id?: string
     deviceId: string
@@ -15978,6 +16349,17 @@ export namespace Prisma {
     displayOrder?: number | null
     isActive?: boolean
     createdAt?: Date | string
+  }
+
+  export type StaffCreateManyAssignedOutletInput = {
+    id: string
+    fullName: string
+    email: string
+    phone?: string | null
+    role: $Enums.StaffRole
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CustomerUpdateWithoutFirstVisitOutletInput = {
@@ -16118,6 +16500,39 @@ export namespace Prisma {
     displayOrder?: NullableIntFieldUpdateOperationsInput | number | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StaffUpdateWithoutAssignedOutletInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumStaffRoleFieldUpdateOperationsInput | $Enums.StaffRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StaffUncheckedUpdateWithoutAssignedOutletInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumStaffRoleFieldUpdateOperationsInput | $Enums.StaffRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StaffUncheckedUpdateManyWithoutAssignedOutletInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumStaffRoleFieldUpdateOperationsInput | $Enums.StaffRole
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReviewCreateManyCustomerInput = {

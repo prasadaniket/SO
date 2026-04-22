@@ -5,10 +5,11 @@ const USER_KEY  = 'cms_user'
 
 // ─── Cookie helpers ────────────────────────────────────────────────────────────
 
-function setCookie(name: string, value: string, days = 7) {
+function setCookie(name: string, value: string, days = 1) {
   if (typeof document === 'undefined') return
   const expires = new Date(Date.now() + days * 864e5).toUTCString()
-  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`
+  // path=/ ensures the cookie is readable by the middleware at any route
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax; Secure=false`
 }
 
 function getCookie(name: string): string | null {
@@ -21,7 +22,7 @@ function getCookie(name: string): string | null {
 
 function deleteCookie(name: string) {
   if (typeof document === 'undefined') return
-  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax`
 }
 
 // ─── Session API ───────────────────────────────────────────────────────────────

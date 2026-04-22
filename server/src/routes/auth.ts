@@ -28,6 +28,7 @@ router.post('/login', async (req, res, next) => {
 
     const staff = await prisma.staff.findUnique({
       where: { id: data.user.id },
+      include: { assignedOutlet: { select: { name: true } } },
     })
 
     if (!staff || !staff.isActive) {
@@ -43,7 +44,7 @@ router.post('/login', async (req, res, next) => {
       email: staff.email,
       role: staff.role,
       assignedOutletId: staff.assignedOutletId,
-      assignedOutletName: null, // populated in GET /cms/me
+      assignedOutletName: staff.assignedOutlet?.name ?? null,
     })
   } catch (err) {
     next(err)
@@ -55,6 +56,7 @@ router.get('/me', requireAuth, async (req, res, next) => {
   try {
     const staff = await prisma.staff.findUnique({
       where: { id: req.staff!.id },
+      include: { assignedOutlet: { select: { name: true } } },
     })
 
     if (!staff) {
@@ -63,14 +65,14 @@ router.get('/me', requireAuth, async (req, res, next) => {
     }
 
     res.json({
-      token: '', // caller should already have the token
+      token: '',
       refreshToken: '',
       userId: staff.id,
       fullName: staff.fullName,
       email: staff.email,
       role: staff.role,
       assignedOutletId: staff.assignedOutletId,
-      assignedOutletName: null,
+      assignedOutletName: staff.assignedOutlet?.name ?? null,
     })
   } catch (err) {
     next(err)
