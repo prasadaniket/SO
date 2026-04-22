@@ -44,35 +44,54 @@ router.post('/', async (req, res, next) => {
     const parsedBirth = new Date(body.birthDate)
     const parsedAnniversary = body.anniversaryDate ? new Date(body.anniversaryDate) : null
 
-    const customer = await prisma.customer.upsert({
-      where: { deviceId: body.deviceId },
-      create: {
-        deviceId:           body.deviceId,
-        fullName:           body.fullName,
-        phone:              body.phone,
-        email:              body.email ?? null,
-        birthDate:          parsedBirth,
-        anniversaryDate:    parsedAnniversary,
-        gender:             body.gender,
-        maritalStatus:      body.maritalStatus,
-        firstVisitOutletId: body.firstVisitOutletId ?? null,
-        lastVisitDate:      new Date(),
-        totalVisits:        1,
-      },
-      update: {
-        // On re-submit: update personal info but keep firstVisitOutletId unchanged
-        fullName:        body.fullName,
-        phone:           body.phone,
-        email:           body.email ?? null,
-        birthDate:       parsedBirth,
-        anniversaryDate: parsedAnniversary,
-        gender:          body.gender,
-        maritalStatus:   body.maritalStatus,
-        lastVisitDate:   new Date(),
-      },
-    })
+    try {
+      const customer = await prisma.customer.upsert({
+        where: { deviceId: body.deviceId },
+        create: {
+          deviceId:           body.deviceId,
+          fullName:           body.fullName,
+          phone:              body.phone,
+          email:              body.email ?? null,
+          birthDate:          parsedBirth,
+          anniversaryDate:    parsedAnniversary,
+          gender:             body.gender,
+          maritalStatus:      body.maritalStatus,
+          firstVisitOutletId: body.firstVisitOutletId ?? null,
+          lastVisitDate:      new Date(),
+          totalVisits:        1,
+        },
+        update: {
+          fullName:        body.fullName,
+          phone:           body.phone,
+          email:           body.email ?? null,
+          birthDate:       parsedBirth,
+          anniversaryDate: parsedAnniversary,
+          gender:          body.gender,
+          maritalStatus:   body.maritalStatus,
+          lastVisitDate:   new Date(),
+        },
+      })
+      res.status(201).json(customer)
+    } catch (prismaErr: any) {
+      // P2002 = unique constraint violation
+      // Check both code and message since meta.target format varies by Prisma version
+      const isUniqueViolation = prismaErr?.code === 'P2002' ||
+        prismaErr?.message?.includes('Unique constraint failed')
 
-    res.status(201).json(customer)
+      if (isUniqueViolation) {
+        // Phone already registered on another device — link this device to existing customer
+        const existing = await prisma.customer.findUnique({ where: { phone: body.phone } })
+        if (existing) {
+          const updated = await prisma.customer.update({
+            where: { id: existing.id },
+            data: { deviceId: body.deviceId, lastVisitDate: new Date() },
+          })
+          res.status(201).json(updated)
+          return
+        }
+      }
+      throw prismaErr
+    }
   } catch (err) {
     next(err)
   }
