@@ -12,6 +12,8 @@
     "@fingerprintjs/fingerprintjs": "^5",
     "@hookform/resolvers": "^5",
     "@radix-ui/react-avatar": "^1.1.11",
+    "@supabase/ssr": "^0.10.2",
+    "@supabase/supabase-js": "^2.104.0",
     "axios": "^1.7.2",
     "clsx": "^2.1.1",
     "date-fns": "^4",
