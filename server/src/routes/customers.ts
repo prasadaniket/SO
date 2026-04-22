@@ -8,12 +8,12 @@ const CreateCustomerSchema = z.object({
   deviceId: z.string().min(1),
   fullName: z.string().min(1),
   phone: z.string().min(10).max(15),
-  email: z.string().email().optional(),
-  birthDate: z.string(), // ISO date string
-  anniversaryDate: z.string().optional(),
+  email: z.string().email().nullable().optional(),
+  birthDate: z.string(),
+  anniversaryDate: z.string().nullable().optional(),
   gender: z.enum(['Male', 'Female', 'Transgender', 'RatherNotSay']),
   maritalStatus: z.enum(['Married', 'Unmarried']),
-  firstVisitOutletId: z.string().uuid().optional(),
+  firstVisitOutletId: z.string().uuid().nullable().optional(),
 })
 
 // GET /customers/by-device/:deviceId

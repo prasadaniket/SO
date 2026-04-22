@@ -5,7 +5,7 @@ import { z } from 'zod'
 const router = Router()
 
 const CreateVisitSchema = z.object({
-  customerId: z.string().uuid().optional(),
+  customerId: z.string().uuid().nullable().optional(),
   deviceId: z.string().min(1),
   outletId: z.string().uuid(),
   visitType: z.enum(['qr_scan', 'payment']).default('qr_scan'),

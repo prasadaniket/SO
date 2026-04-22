@@ -5,9 +5,9 @@ import { z } from 'zod'
 const router = Router()
 
 const CreateReviewSchema = z.object({
-  customerId: z.string().uuid().optional(),
+  customerId: z.string().uuid().nullable().optional(),
   outletId: z.string().uuid(),
-  reviewText: z.string().optional(),
+  reviewText: z.string().nullable().optional(),
   stars: z.number().int().min(1).max(5),
   reviewType: z.enum(['first_visit', 'repeat']),
 })
