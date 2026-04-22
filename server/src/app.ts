@@ -50,8 +50,7 @@ export function createApp() {
   app.use('/api/menu', menuRouter)
 
   // Auth
-  app.use('/api/auth', authRouter)
-  app.get('/api/cms/me', authRouter)
+  app.use('/api/auth', authRouter)  // POST /api/auth/login, GET /api/auth/me
 
   // CMS (protected)
   app.use('/api/cms/dashboard', dashboardRouter)
@@ -59,6 +58,11 @@ export function createApp() {
   app.use('/api/cms/reviews', cmsReviewsRouter)
   app.use('/api/cms/automation-logs', automationLogsRouter)
   app.use('/api/cms/export', exportRouter)
+
+  // Automation trigger — stub until Task 8 (Cloudflare Worker)
+  app.post('/api/cms/reengagement/trigger', (_req, res) => {
+    res.status(501).json({ message: 'Automation worker not yet configured (Task 8)' })
+  })
 
   app.use(errorHandler)
 

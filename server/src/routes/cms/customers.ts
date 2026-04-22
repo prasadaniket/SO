@@ -35,4 +35,32 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+// GET /cms/customers/:id — individual customer with their reviews
+router.get('/:id', async (req, res, next) => {
+  try {
+    const customer = await prisma.customer.findUnique({
+      where: { id: req.params.id },
+      include: { firstVisitOutlet: { select: { name: true, code: true } } },
+    })
+
+    if (!customer) {
+      res.status(404).json({ error: 'Customer not found' })
+      return
+    }
+
+    // Scope check for franchise owners
+    if (
+      req.staff!.role === 'franchise_owner' &&
+      customer.firstVisitOutletId !== req.staff!.assignedOutletId
+    ) {
+      res.status(403).json({ error: 'Access denied' })
+      return
+    }
+
+    res.json(customer)
+  } catch (err) {
+    next(err)
+  }
+})
+
 export default router
