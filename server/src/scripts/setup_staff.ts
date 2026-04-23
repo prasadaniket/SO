@@ -1,143 +1,44 @@
 import { prisma } from '../lib/prisma'
 import { supabaseAdmin } from '../lib/supabase'
 
-// ─── Staff setup data ──────────────────────────────────────────────────────────
+// ─── Staff definitions with usernames ─────────────────────────────────────────
 
 const STAFF = [
-  {
-    email:     'unicord26@gmail.com',
-    password:  'Avi26#uni',
-    fullName:  'Aniket (UniCord)',
-    role:      'admin' as const,
-    outlet:    null, // admin has access to all
-  },
-  {
-    email:     'owner@stoneoven.com',
-    password:  'Stoneoven',
-    fullName:  'Nitesh Save',
-    role:      'owner' as const,
-    outlet:    null, // owner sees all outlets
-  },
-  {
-    email:     'fbowner@stoneoven.com',
-    password:  'Stoneoven.fb',
-    fullName:  'Franchise Owner — Boisar',
-    role:      'franchise_owner' as const,
-    outlet:    'boisar',
-  },
-  {
-    email:     'fpowner@stoneoven.com',
-    password:  'Stoneoven.fp',
-    fullName:  'Franchise Owner — Palghar',
-    role:      'franchise_owner' as const,
-    outlet:    'palghar',
-  },
-  {
-    email:     'fviowner@stoneoven.com',
-    password:  'Stoneoven.fvi',
-    fullName:  'Franchise Owner — Virar',
-    role:      'franchise_owner' as const,
-    outlet:    'virar',
-  },
-  {
-    email:     'fvaowner@stoneoven.com',
-    password:  'Stoneoven.fva',
-    fullName:  'Franchise Owner — Vasai',
-    role:      'franchise_owner' as const,
-    outlet:    'vasai',
-  },
+  { email: 'unicord26@gmail.com', password: 'Avi26#uni',     username: 'unicord26', fullName: 'Aniket (UniCord)',          role: 'admin'           as const, outlet: null      },
+  { email: 'owner@stoneoven.com',  password: 'Stoneoven',     username: 'niteshsve', fullName: 'Nitesh Save',               role: 'owner'           as const, outlet: null      },
+  { email: 'fbowner@stoneoven.com',password: 'Stoneoven.fb',  username: 'fbowner',   fullName: 'Franchise Owner — Boisar',  role: 'franchise_owner' as const, outlet: 'boisar'  },
+  { email: 'fpowner@stoneoven.com',password: 'Stoneoven.fp',  username: 'fpowner',   fullName: 'Franchise Owner — Palghar', role: 'franchise_owner' as const, outlet: 'palghar' },
+  { email: 'fviowner@stoneoven.com',password:'Stoneoven.fvi', username: 'fviowner',  fullName: 'Franchise Owner — Virar',   role: 'franchise_owner' as const, outlet: 'virar'   },
+  { email: 'fvaowner@stoneoven.com',password:'Stoneoven.fva', username: 'fvaowner',  fullName: 'Franchise Owner — Vasai',   role: 'franchise_owner' as const, outlet: 'vasai'   },
 ]
 
 async function main() {
-  console.log('=== StoneOven Staff Setup ===\n')
+  console.log('=== Setting usernames for all staff ===\n')
 
-  // Load all outlets by slug
-  const outlets = await prisma.outlet.findMany({ select: { id: true, slug: true, name: true } })
-  const outletBySlug: Record<string, string> = {}
-  for (const o of outlets) outletBySlug[o.slug] = o.id
-  console.log('Outlets loaded:', outlets.map(o => `${o.slug}(${o.id.slice(0,8)}..)`).join(', '))
+  const outlets = await prisma.outlet.findMany({ select: { id: true, slug: true } })
+  const bySlug: Record<string, string> = Object.fromEntries(outlets.map(o => [o.slug, o.id]))
 
-  // Migrate existing main_owner records to admin
-  const migrated = await prisma.staff.updateMany({
-    where: { role: 'main_owner' },
-    data:  { role: 'admin' },
-  })
-  if (migrated.count > 0) {
-    console.log(`Migrated ${migrated.count} main_owner records → admin`)
-  }
+  for (const s of STAFF) {
+    const outletId = s.outlet ? bySlug[s.outlet] : null
 
-  for (const staff of STAFF) {
-    console.log(`\n→ Processing: ${staff.email} (${staff.role})`)
+    // Find auth user by email
+    const { data: list } = await supabaseAdmin.auth.admin.listUsers()
+    const authUser = list?.users?.find(u => u.email === s.email)
+    if (!authUser) { console.error(`  ❌ No auth user for ${s.email}`); continue }
 
-    const assignedOutletId = staff.outlet ? outletBySlug[staff.outlet] : null
-
-    if (!assignedOutletId && staff.outlet) {
-      console.error(`  ❌ Outlet slug "${staff.outlet}" not found in DB! Skipping.`)
-      continue
-    }
-
-    // 1. Create or update Supabase Auth user
-    let authUserId: string | null = null
-
-    // First try to find existing auth user
-    const { data: existingUsers } = await supabaseAdmin.auth.admin.listUsers()
-    const existingUser = existingUsers?.users?.find(u => u.email === staff.email)
-
-    if (existingUser) {
-      authUserId = existingUser.id
-      // Update password
-      await supabaseAdmin.auth.admin.updateUserById(existingUser.id, {
-        password: staff.password,
-        email_confirm: true,
-      })
-      console.log(`  ✅ Auth user exists, password updated. ID: ${authUserId.slice(0,8)}..`)
-    } else {
-      const { data: newUser, error } = await supabaseAdmin.auth.admin.createUser({
-        email:            staff.email,
-        password:         staff.password,
-        email_confirm:    true,
-        user_metadata:    { fullName: staff.fullName, role: staff.role },
-      })
-      if (error || !newUser?.user) {
-        console.error(`  ❌ Failed to create auth user: ${error?.message}`)
-        continue
-      }
-      authUserId = newUser.user.id
-      console.log(`  ✅ Auth user created. ID: ${authUserId.slice(0,8)}..`)
-    }
-
-    // 2. Upsert staff DB record
-    const staffRecord = await prisma.staff.upsert({
-      where:  { id: authUserId },
-      create: {
-        id:               authUserId,
-        email:            staff.email,
-        fullName:         staff.fullName,
-        role:             staff.role,
-        assignedOutletId: assignedOutletId,
-        isActive:         true,
-      },
-      update: {
-        email:            staff.email,
-        fullName:         staff.fullName,
-        role:             staff.role,
-        assignedOutletId: assignedOutletId,
-        isActive:         true,
-      },
+    // Upsert staff record with username
+    await prisma.staff.upsert({
+      where:  { id: authUser.id },
+      create: { id: authUser.id, email: s.email, username: s.username, fullName: s.fullName, role: s.role, assignedOutletId: outletId, isActive: true },
+      update: { username: s.username, fullName: s.fullName, role: s.role, assignedOutletId: outletId },
     })
-    console.log(`  ✅ Staff DB record upserted. Role: ${staffRecord.role}, Outlet: ${assignedOutletId?.slice(0,8) ?? 'all'}`)
+    console.log(`  ✅  ${s.username.padEnd(12)} → ${s.email}`)
   }
 
-  console.log('\n=== Staff setup complete! ===\n')
-
-  // Final summary
-  const allStaff = await prisma.staff.findMany({
-    include: { assignedOutlet: { select: { name: true } } },
-    orderBy: { createdAt: 'asc' },
-  })
-  console.log('Current staff in DB:')
-  for (const s of allStaff) {
-    console.log(`  ${s.role.padEnd(16)} | ${s.email.padEnd(32)} | ${s.assignedOutlet?.name ?? 'All Outlets'}`)
+  console.log('\nFinal staff table:')
+  const all = await prisma.staff.findMany({ include: { assignedOutlet: { select: { name: true } } } })
+  for (const s of all) {
+    console.log(`  ${(s.username ?? '—').padEnd(12)} | ${s.role.padEnd(16)} | ${s.email}`)
   }
 }
 
